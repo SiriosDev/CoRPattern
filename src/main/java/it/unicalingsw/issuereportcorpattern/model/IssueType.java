@@ -5,17 +5,24 @@ public class IssueType {
     private String name;
     private Integer level;
     private Integer defaultLevel;
+    private Boolean defaultState;
 
-    public IssueType(String name, Integer level, Integer defaultLevel) {
+    public IssueType(String name, Integer level, Integer defaultLevel, Boolean defaultState) {
         this.name = name;
         this.level = level;
         this.defaultLevel = defaultLevel;
+        this.defaultState = defaultState;
+    }
+
+    public IssueType(String name, Integer level, Boolean defaultState) {
+        this.name = name;
+        this.level = level;
+        this.defaultState = defaultState;
     }
 
     public IssueType(String name, Integer level) {
         this.name = name;
         this.level = level;
-        this.defaultLevel = level;
     }
 
 
@@ -45,6 +52,14 @@ public class IssueType {
 
     public void resetLevel() {
         this.level = this.defaultLevel;
+    }
+
+    public Boolean getDefaultState() {
+        return defaultState;
+    }
+
+    public void setDefaultState(Boolean defaultState) {
+        this.defaultState = defaultState;
     }
 }
 
