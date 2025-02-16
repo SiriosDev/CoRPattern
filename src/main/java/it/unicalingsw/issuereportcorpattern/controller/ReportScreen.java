@@ -1,5 +1,6 @@
 package it.unicalingsw.issuereportcorpattern.controller;
 
+import it.unicalingsw.issuereportcorpattern.model.Database;
 import it.unicalingsw.issuereportcorpattern.model.IssueType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +12,7 @@ import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ReportScreen  implements Initializable {
@@ -81,13 +83,12 @@ public class ReportScreen  implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        ObservableList<IssueType> possibleIssueType = FXCollections.observableArrayList(
-                null,
-                new IssueType("Base",0),
-                new IssueType("Intermedio",1),
-                new IssueType("Avanzato",2),
-                new IssueType("Critico",3)
-        );
+        ObservableList<IssueType> possibleIssueType = null;
+        try {
+            possibleIssueType = Database.getAllIssueTypes();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         issueComboBox.setItems(possibleIssueType);
 
