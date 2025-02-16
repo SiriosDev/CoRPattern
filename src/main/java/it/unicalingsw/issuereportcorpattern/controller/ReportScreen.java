@@ -36,6 +36,9 @@ public class ReportScreen  implements Initializable {
     @FXML
     private ComboBox<IssueType> issueComboBox;
 
+    private Integer MAX_TITLE_LENGTH = 100;
+    private Integer MAX_DESC_LENGTH = 3096;
+
     private Boolean disableByType=true;
     private Boolean disableByTitle=true;
     private Boolean disableByDesc=true;
@@ -120,6 +123,9 @@ public class ReportScreen  implements Initializable {
         wrapSend.setStyle("-fx-box-border: transparent;");
         wrapReset.setStyle("-fx-box-border: transparent;");
 
+
+        titleLimitLabel.setText(MAX_TITLE_LENGTH+"");
+        descLimitLabel.setText(MAX_DESC_LENGTH+"");
         updateTooltip();
 
 
@@ -130,15 +136,33 @@ public class ReportScreen  implements Initializable {
 
         titleTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             int length = newValue != null ? newValue.length() : 0;
-            titleLimitLabel.setText(length + "/100");
-            disableByTitle = newValue == null || newValue.isEmpty();
+            titleLimitLabel.setText((MAX_TITLE_LENGTH - length) + "");
+            if (length > MAX_TITLE_LENGTH) {
+                titleLimitLabel.setStyle("-fx-text-fill: red;");
+            } else {
+                titleLimitLabel.setStyle("-fx-text-fill: black;");
+            }
+
+            //titleTextField.setText(newValue.length()>limit ? newValue.substring(0,limit) : newValue);
+
+
+            disableByTitle = newValue == null || newValue.isEmpty() || length > MAX_TITLE_LENGTH;
             updateTooltip();
         });
 
         descTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             int length = newValue != null ? newValue.length() : 0;
-            descLimitLabel.setText(length + "/3096");
-            disableByDesc = newValue == null || newValue.isEmpty();
+            descLimitLabel.setText((MAX_DESC_LENGTH - length) + "");
+            if (length > MAX_DESC_LENGTH) {
+                descLimitLabel.setStyle("-fx-text-fill: red;");
+            } else {
+                descLimitLabel.setStyle("-fx-text-fill: black;");
+            }
+
+            //descTextArea.setText(newValue.length()>limit ? newValue.substring(0,limit) : newValue);
+
+
+            disableByDesc = newValue == null || newValue.isEmpty() || length > MAX_DESC_LENGTH;
             updateTooltip();
         });
 
