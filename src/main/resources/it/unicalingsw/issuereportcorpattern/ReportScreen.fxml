@@ -3,14 +3,16 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/21 " xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicalingsw.issuereportcorpattern.controller.ReportScreen">
    <children>
-      <ComboBox fx:id="issueComboBox" layoutX="175.0" layoutY="92.0" prefHeight="44.0" prefWidth="522.0" />
-      <TextArea fx:id="descTextArea" layoutX="175.0" layoutY="160.0" prefHeight="354.0" prefWidth="600.0" wrapText="true" />
+      <ComboBox fx:id="issueComboBox" layoutX="175.0" layoutY="92.0" prefHeight="44.0" prefWidth="522.0" promptText="Selezione un livello di segnalazione" />
+      <TextArea fx:id="descTextArea" layoutX="175.0" layoutY="200.0" prefHeight="284.0" prefWidth="600.0" promptText="Inserici una descrizione per questa segnalazione" wrapText="true" />
       <CheckBox fx:id="urgentCheckBox" layoutX="711.0" layoutY="92.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="64.0" text="Urgente" />
       <SplitPane fx:id="wrapReset" layoutX="175.0" layoutY="534.0">
          <items>
@@ -22,5 +24,8 @@
             <Button fx:id="sendButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="286.0" text="Invia" />
          </items>
       </SplitPane>
+      <TextField fx:id="titleTextField" layoutX="175.0" layoutY="165.0" prefHeight="25.0" prefWidth="547.0" promptText="Inserici un titolo per questa segnalazione" />
+      <Label fx:id="titleLimitLabel" alignment="CENTER" layoutX="741.0" layoutY="169.0" text="0/100" AnchorPane.bottomAnchor="464.0" AnchorPane.rightAnchor="178.0" />
+      <Label fx:id="descLimitLabel" alignment="CENTER_RIGHT" layoutX="737.0" layoutY="492.0" text="0/3096" AnchorPane.bottomAnchor="141.0" AnchorPane.rightAnchor="175.0" />
    </children>
 </AnchorPane>

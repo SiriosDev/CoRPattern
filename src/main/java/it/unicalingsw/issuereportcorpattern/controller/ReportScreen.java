@@ -20,6 +20,12 @@ public class ReportScreen  implements Initializable {
     @FXML
     private SplitPane wrapReset;
     @FXML
+    private TextField titleTextField;
+    @FXML
+    private Label titleLimitLabel;
+    @FXML
+    private Label descLimitLabel;
+    @FXML
     private TextArea descTextArea;
     @FXML
     private CheckBox urgentCheckBox;
@@ -29,6 +35,10 @@ public class ReportScreen  implements Initializable {
     private Button resetButton;
     @FXML
     private ComboBox<IssueType> issueComboBox;
+
+    private Boolean disableByType=true;
+    private Boolean disableByTitle=true;
+    private Boolean disableByDesc=true;
 
     private void resetFields() {
         descTextArea.clear();
@@ -43,17 +53,26 @@ public class ReportScreen  implements Initializable {
         return tooltip;
     }
 
-    private void updateTooltip(boolean disable) {
+    private void updateTooltip() {
         String tooltipText;
+        Boolean disable=disableByType||disableByTitle||disableByDesc;
+
         if (disable) {
             tooltipText = "I seguenti campi devono essere compilati: \n";
-            tooltipText += (descTextArea.getText().isEmpty() || descTextArea.getText()==null)  ? "- Descrizione \n" : "";
-            tooltipText += (issueComboBox.getValue() == null) ? "- Tipo \n" : "";
+            tooltipText += disableByType ? "- Tipo \n" : "";
+            tooltipText += disableByTitle ? "- Titolo \n" : "";
+            tooltipText += disableByDesc  ? "- Descrizione \n" : "";
+
+            wrapSend.setTooltip(makeTooltip(tooltipText));
+            wrapReset.setTooltip(makeTooltip(tooltipText));
         } else {
-            tooltipText="";
+            wrapSend.setTooltip(null);
+            wrapReset.setTooltip(null);
         }
-        wrapSend.setTooltip(makeTooltip(tooltipText));
-        wrapReset.setTooltip(makeTooltip(tooltipText));
+
+
+        sendButton.setDisable(disable);
+        resetButton.setDisable(disable);
     }
 
     @Override
@@ -101,24 +120,29 @@ public class ReportScreen  implements Initializable {
         wrapSend.setStyle("-fx-box-border: transparent;");
         wrapReset.setStyle("-fx-box-border: transparent;");
 
+        updateTooltip();
 
-        sendButton.setDisable(true);
-        resetButton.setDisable(true);
-        updateTooltip(true);
-
-        descTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean disable = newValue.isEmpty() || issueComboBox.getValue() == null;
-            sendButton.setDisable(disable);
-            resetButton.setDisable(disable);
-            updateTooltip(disable);
-        });
 
         issueComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            boolean disable = descTextArea.getText().isEmpty() || newValue == null;
-            sendButton.setDisable(disable);
-            resetButton.setDisable(disable);
-            updateTooltip(disable);
+            disableByType = newValue == null || newValue.getName().isEmpty();
+            updateTooltip();
         });
+
+        titleTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            int length = newValue != null ? newValue.length() : 0;
+            titleLimitLabel.setText(length + "/100");
+            disableByTitle = newValue == null || newValue.isEmpty();
+            updateTooltip();
+        });
+
+        descTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            int length = newValue != null ? newValue.length() : 0;
+            descLimitLabel.setText(length + "/3096");
+            disableByDesc = newValue == null || newValue.isEmpty();
+            updateTooltip();
+        });
+
+
 
 
 
@@ -126,6 +150,7 @@ public class ReportScreen  implements Initializable {
 
         sendButton.setOnAction(event -> {
             System.out.println("Issue: " + issueComboBox.getValue().getName());
+            System.out.println("Titolo: " + titleTextField.getText());
             System.out.println("Descrizione: " + descTextArea.getText());
             System.out.println("Urgente: " + urgentCheckBox.isSelected());
             resetFields();
