@@ -67,7 +67,6 @@ public class ReportScreen  implements Initializable {
                 new IssueType("Critico",3)
         );
 
-
         issueComboBox.setItems(possibleIssueType);
 
         issueComboBox.setConverter(new StringConverter<IssueType>() {
@@ -98,6 +97,9 @@ public class ReportScreen  implements Initializable {
                 };
             }
         });
+
+        wrapSend.setStyle("-fx-box-border: transparent;");
+        wrapReset.setStyle("-fx-box-border: transparent;");
 
 
         sendButton.setDisable(true);
