@@ -123,7 +123,7 @@ public class IssuesScreen implements Initializable {
                     protected void updateItem(Issue issue, boolean empty) {
                         super.updateItem(issue, empty);
                         if (issue != null) {
-                            setText(issue.getTitle());
+                            setText(issue.getTitle() + ( issue.getUrgent()?" - Urgente!":""));
                         }else{
                             setText(null);
                         }
@@ -143,7 +143,7 @@ public class IssuesScreen implements Initializable {
         issueListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
 
-                Text title = new Text(newValue.getTitle() +( newValue.getUrgent()?" - Urgente!":"")+"\n\n");
+                Text title = new Text(newValue.getTitle() + ( newValue.getUrgent()?" - Urgente!":"")+"\n\n");
                 title.setFont(Font.font(fontFamily, FontWeight.BOLD, 30));
                 Text desc = new Text(newValue.getDescription());
                 desc.setFont(Font.font(fontFamily, 20));
