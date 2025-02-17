@@ -3,6 +3,10 @@ module it.unicalingsw.issuereportcorpattern {
     requires javafx.fxml;
     requires javafx.base;
     requires java.sql;
+    requires javafx.graphics;
+    requires org.kordamp.ikonli.core;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.materialdesign2;
 
 
     opens it.unicalingsw.issuereportcorpattern to javafx.fxml;
