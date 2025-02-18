@@ -4,6 +4,7 @@ import it.unicalingsw.issuereportcorpattern.MainApp;
 import it.unicalingsw.issuereportcorpattern.model.Database;
 import it.unicalingsw.issuereportcorpattern.model.Issue;
 import it.unicalingsw.issuereportcorpattern.model.IssueType;
+import it.unicalingsw.issuereportcorpattern.model.MsgBox;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -202,16 +203,14 @@ public class IssuesScreen implements Initializable {
 
                         EditLevelScreen controller = fxmlLoader.getController();
                         if (!controller.saved) {
-                            Alert alert = new Alert(Alert.AlertType.WARNING);
-                            alert.initOwner(dialogStage);
-                            alert.setTitle("Attenzione");
-                            alert.setContentText("Sei sicuro di voler chiudere la schermata senza salvare?");
-                            alert.getButtonTypes().clear();
+                            MsgBox warning = new MsgBox("Attenzione! Stai uscendo senza salvare", "Sei sicuro di voler chiudere la schermata senza salvare?", Alert.AlertType.WARNING);
+                            warning.getAlert().initOwner(dialogStage);
+                            warning.getAlert().getButtonTypes().clear();
                             ButtonType continua = new ButtonType("Continua");
-                            ButtonType annulla = new ButtonType("Annulla", ButtonBar.ButtonData.CANCEL_CLOSE);
-                            alert.getButtonTypes().addAll(continua, annulla);
+                            ButtonType annulla = new ButtonType("Annulla");
+                            warning.getAlert().getButtonTypes().addAll(continua, annulla);
 
-                            Optional<ButtonType> result = alert.showAndWait();
+                            Optional<ButtonType> result = warning.getAlert().showAndWait();
                             if (result.isPresent() && result.get() == annulla) {
                                 ev.consume();
                             } else {
