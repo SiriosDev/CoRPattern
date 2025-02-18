@@ -1,6 +1,5 @@
 package it.unicalingsw.issuereportcorpattern.controller;
 
-import com.sun.tools.javac.Main;
 import it.unicalingsw.issuereportcorpattern.MainApp;
 import it.unicalingsw.issuereportcorpattern.model.Database;
 import it.unicalingsw.issuereportcorpattern.model.Issue;
