@@ -33,7 +33,7 @@ public class EditLevelScreen implements Initializable {
     @FXML
     private AnchorPane anchorPane;
 
-    private Boolean saved = true;
+    public Boolean saved = true;
 
     private Boolean checkHelper(List<Integer> levels, List<String> names) {
         Set<Integer> setLevels = new HashSet<>(levels);
@@ -126,6 +126,8 @@ public class EditLevelScreen implements Initializable {
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
+
+        saved = true;
 
         addButton.setOnAction(actionEvent -> {
             try {

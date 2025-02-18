@@ -188,18 +188,23 @@ public class IssuesScreen implements Initializable {
 
                     dialogStage.setOnCloseRequest(ev -> {
 
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.initOwner(dialogStage);
-                        alert.setTitle("Attenzione");
-                        alert.setContentText("Sei sicuro di voler chiudere la schermata senza salvare?");
-                        alert.getButtonTypes().clear();
-                        ButtonType continua = new ButtonType("Continua");
-                        ButtonType annulla = new ButtonType("Annulla", ButtonBar.ButtonData.CANCEL_CLOSE);
-                        alert.getButtonTypes().addAll(continua, annulla);
+                        EditLevelScreen controller = fxmlLoader.getController();
+                        if (!controller.saved) {
+                            Alert alert = new Alert(Alert.AlertType.WARNING);
+                            alert.initOwner(dialogStage);
+                            alert.setTitle("Attenzione");
+                            alert.setContentText("Sei sicuro di voler chiudere la schermata senza salvare?");
+                            alert.getButtonTypes().clear();
+                            ButtonType continua = new ButtonType("Continua");
+                            ButtonType annulla = new ButtonType("Annulla", ButtonBar.ButtonData.CANCEL_CLOSE);
+                            alert.getButtonTypes().addAll(continua, annulla);
 
-                        Optional<ButtonType> result = alert.showAndWait();
-                        if (result.isPresent() && result.get() == annulla) {
-                            ev.consume();
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.isPresent() && result.get() == annulla) {
+                                ev.consume();
+                            } else {
+                                dialogStage.close();
+                            }
                         } else {
                             dialogStage.close();
                         }
