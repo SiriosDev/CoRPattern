@@ -1,8 +1,11 @@
 package it.unicalingsw.issuereportcorpattern.controller;
 
+import it.unicalingsw.issuereportcorpattern.model.CoR.ChainBuilder;
+import it.unicalingsw.issuereportcorpattern.model.CoR.IssueHandler;
 import it.unicalingsw.issuereportcorpattern.model.Database;
+import it.unicalingsw.issuereportcorpattern.model.Issue;
 import it.unicalingsw.issuereportcorpattern.model.IssueType;
-import javafx.collections.FXCollections;
+import it.unicalingsw.issuereportcorpattern.model.MsgBox;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,6 +50,7 @@ public class ReportScreen  implements Initializable {
 
     private void resetFields() {
         descTextArea.clear();
+        titleTextField.clear();
         urgentCheckBox.setSelected(false);
         issueComboBox.setValue(null);
     }
@@ -173,13 +177,24 @@ public class ReportScreen  implements Initializable {
 
         resetButton.setOnAction(event -> resetFields());
 
+        ObservableList<IssueType> finalPossibleIssueType = possibleIssueType;
         sendButton.setOnAction(event -> {
-            System.out.println("Issue: " + issueComboBox.getValue().getName());
-            System.out.println("Titolo: " + titleTextField.getText());
-            System.out.println("Descrizione: " + descTextArea.getText());
-            System.out.println("Urgente: " + urgentCheckBox.isSelected());
-            resetFields();
+            Issue issue = new Issue(issueComboBox.getValue(), titleTextField.getText(), descTextArea.getText(), urgentCheckBox.isSelected());
+            IssueHandler chain = ChainBuilder.buildChain(finalPossibleIssueType);
+            try {
+                chain.handle(issue);
+                new MsgBox("Operazione completata con successo", "Operazione completata con successo", Alert.AlertType.INFORMATION).launch();
+                resetFields();
+            } catch (SQLException e) {
+                if(e.getMessage().contains("UNIQUE constraint failed: Issue.Title")) {
+                    new MsgBox("Un issue con lo stesso titolo esiste già", "Un issue con lo stesso titolo esiste già", Alert.AlertType.ERROR).launch();
+                }else {
+                    new MsgBox("Operazione fallita", "Operazione fallita"+e.getMessage(), Alert.AlertType.ERROR).launch();
+                }
+            }
+
         });
+
 
 
 
