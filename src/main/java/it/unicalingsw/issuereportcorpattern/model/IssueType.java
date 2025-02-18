@@ -2,12 +2,14 @@ package it.unicalingsw.issuereportcorpattern.model;
 
 public class IssueType {
 
+    private Integer ID;
     private String name;
     private Integer level;
     private Integer defaultLevel;
     private Boolean defaultState;
 
-    public IssueType(String name, Integer level, Integer defaultLevel, Boolean defaultState) {
+    public IssueType(Integer ID,String name, Integer level, Integer defaultLevel, Boolean defaultState) {
+        this.ID = ID;
         this.name = name;
         this.level = level;
         this.defaultLevel = defaultLevel;
@@ -25,6 +27,9 @@ public class IssueType {
         this.level = level;
     }
 
+    public Integer getID() {
+        return ID;
+    }
 
     public String getName() {
         return name;
