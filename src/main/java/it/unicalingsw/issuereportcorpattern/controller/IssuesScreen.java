@@ -1,27 +1,38 @@
 package it.unicalingsw.issuereportcorpattern.controller;
 
+import com.sun.tools.javac.Main;
+import it.unicalingsw.issuereportcorpattern.MainApp;
 import it.unicalingsw.issuereportcorpattern.model.Database;
 import it.unicalingsw.issuereportcorpattern.model.Issue;
 import it.unicalingsw.issuereportcorpattern.model.IssueType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class IssuesScreen implements Initializable {
 
+    @FXML
+    private Button editButton;
     @FXML
     private AnchorPane detailSide;
     @FXML
@@ -157,6 +168,39 @@ public class IssuesScreen implements Initializable {
                 issueTitleFlow.getChildren().clear();
                 issueDescFlow.getChildren().clear();
                 issueTitleFlow.getChildren().add(noIssue);
+            }
+        });
+
+        editButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    Stage dialogStage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(MainApp.class.getResource("EditLevelScreen.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load());
+                    dialogStage.setTitle("Modifica Livelli");
+                    dialogStage.setResizable(false);
+                    dialogStage.initModality(Modality.APPLICATION_MODAL);
+                    dialogStage.setScene(scene);
+                    dialogStage.show();
+
+                    dialogStage.setOnCloseRequest(ev -> {
+                        Stage currentStage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+                        FXMLLoader fxmlLoader2 = new FXMLLoader();
+                        fxmlLoader2.setLocation(MainApp.class.getResource("IssuesScreen.fxml"));
+                        try {
+                            Scene scene2 = new Scene(fxmlLoader2.load());
+                            currentStage.setScene(scene2);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
