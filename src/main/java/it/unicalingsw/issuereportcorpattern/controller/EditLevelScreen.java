@@ -3,6 +3,7 @@ package it.unicalingsw.issuereportcorpattern.controller;
 import it.unicalingsw.issuereportcorpattern.MainApp;
 import it.unicalingsw.issuereportcorpattern.model.Database;
 import it.unicalingsw.issuereportcorpattern.model.IssueType;
+import it.unicalingsw.issuereportcorpattern.model.MsgBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -163,8 +164,9 @@ public class EditLevelScreen implements Initializable {
 
             try {
                 Database.saveIssueTypes(issueTypesToSave);
+                new MsgBox("Salvataggio effettuato", "Salvataggio effettuato con successo", Alert.AlertType.INFORMATION).launch();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                new MsgBox("Salvataggio fallito", "Salvataggio fallito: " + e.getMessage(), Alert.AlertType.ERROR).launch();
             } finally {
                 saved = true;
             }
