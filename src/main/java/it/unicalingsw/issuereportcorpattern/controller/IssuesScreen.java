@@ -122,34 +122,6 @@ public class IssuesScreen implements Initializable {
             }
         });
 
-//        ObservableList<Issue> issues = FXCollections.observableArrayList(
-//                new Issue(new IssueType("Base",0),"Prova","Prova",false),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true),
-//                new Issue(new IssueType("Base",0),"Prova","Prova",true)
-//        );
-
 
         try {
             ObservableList<Issue> issues = Database.getAllIssues(possibleIssueType);
@@ -157,7 +129,7 @@ public class IssuesScreen implements Initializable {
             issueComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
                 ObservableList<Issue> issuesToShow = FXCollections.observableArrayList();
                 for (Issue issue : issues) {
-                    if (newValue == null || issue.getType().getLevel().equals(newValue.getLevel())) {
+                    if (newValue != null && issue.getType().getLevel().equals(newValue.getLevel())) {
                         issuesToShow.add(issue);
                     }
                 }
