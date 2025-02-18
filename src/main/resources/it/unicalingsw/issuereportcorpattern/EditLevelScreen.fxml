@@ -10,10 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-
 <AnchorPane fx:id="anchorPane" prefHeight="617.0" prefWidth="597.0" xmlns="http://javafx.com/javafx/21 " xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicalingsw.issuereportcorpattern.controller.EditLevelScreen">
    <children>
-      <ScrollPane fitToWidth="true" layoutX="116.0" layoutY="118.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="365.0">
+      <ScrollPane fitToWidth="true" layoutX="116.0" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="365.0">
         <content>
           <AnchorPane>
                <children>
@@ -40,15 +39,20 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <Label alignment="CENTER" layoutX="116.0" layoutY="56.0" prefHeight="42.0" prefWidth="365.0" text="Modifica Livelli">
+      <Label alignment="CENTER" layoutX="116.0" layoutY="38.0" prefHeight="42.0" prefWidth="365.0" text="Modifica Livelli">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER" layoutX="116.0" layoutY="511.0" prefHeight="67.0" prefWidth="365.0" spacing="30.0">
+      <HBox alignment="CENTER" layoutX="116.0" layoutY="526.0" prefHeight="52.0" prefWidth="365.0" spacing="30.0">
          <children>
             <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="67.0" prefWidth="157.0" text="Salva" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
+      <Label alignment="CENTER" layoutX="82.0" layoutY="463.0" prefHeight="60.0" prefWidth="433.0" text="Attenzione, cancellare un livello comporta l'eliminazione di tutti i report con tale livello" textAlignment="CENTER" textFill="#c90000" wrapText="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
