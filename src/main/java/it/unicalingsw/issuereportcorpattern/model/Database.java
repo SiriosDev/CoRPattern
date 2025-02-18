@@ -17,11 +17,9 @@ public class Database {
         issueTypes.add(null);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            issueTypes.add(new IssueType(rs.getString("name"), rs.getInt("level"), (Integer) rs.getObject("defaultLevel"), rs.getBoolean("default")));;
+            issueTypes.add(new IssueType(rs.getInt("ID"),rs.getString("name"), rs.getInt("level"), (Integer) rs.getObject("defaultLevel"), rs.getBoolean("default")));;
         }
         stmt.close();
-
-
 
         return issueTypes;
 
@@ -33,8 +31,15 @@ public class Database {
         deleteStmt.executeUpdate();
         deleteStmt.close();
 
-        PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO IssueType (Name, Level, DefaultLevel, \"Default\") VALUES (?, ?, ?, ?)");
         for (IssueType issueType : issueTypesToSave) {
+            PreparedStatement insertStmt = null;
+            if (issueType.getID() == null) {
+                insertStmt = connection.prepareStatement("INSERT INTO IssueType (Name, Level, DefaultLevel, \"Default\") VALUES (?, ?, ?, ?)");
+            }else {
+                insertStmt = connection.prepareStatement("INSERT INTO IssueType (Name, Level, DefaultLevel, \"Default\", ID) VALUES (?, ?, ?, ?, ?)");
+                insertStmt.setInt(5, issueType.getID());
+            }
+
             insertStmt.setString(1, issueType.getName());
             insertStmt.setInt(2, issueType.getLevel());
             if (issueType.getDefaultLevel() != null) {
@@ -44,7 +49,30 @@ public class Database {
             }
             insertStmt.setBoolean(4, issueType.getDefaultState());
             insertStmt.executeUpdate();
+            insertStmt.close();
         }
-        insertStmt.close();
+
+        PreparedStatement deleteStmt2 = connection.prepareStatement("DELETE FROM Issue WHERE Type NOT IN (SELECT ID FROM IssueType)");
+        deleteStmt2.executeUpdate();
+        deleteStmt2.close();
+
+    }
+
+    private static IssueType findIssueByName(ObservableList<IssueType> list, String findName){
+        return list.stream()
+                .filter(e -> e != null && e.getName().equals(findName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static ObservableList<Issue> getAllIssues(ObservableList<IssueType> issueTypes) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Issue as I , IssueType as IT WHERE I.Type==IT.ID ORDER BY IT.Level, I.Urgent DESC, I.Title");
+        ObservableList<Issue> issues = FXCollections.observableArrayList();
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()){
+            issues.add(new Issue(findIssueByName(issueTypes, rs.getString("Name")), rs.getString("Title"), rs.getString("Desc"), rs.getBoolean("Urgent")));
+
+        }
+        return issues;
     }
 }
