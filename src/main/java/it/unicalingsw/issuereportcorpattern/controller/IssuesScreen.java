@@ -5,6 +5,8 @@ import it.unicalingsw.issuereportcorpattern.MainApp;
 import it.unicalingsw.issuereportcorpattern.model.Database;
 import it.unicalingsw.issuereportcorpattern.model.Issue;
 import it.unicalingsw.issuereportcorpattern.model.IssueType;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,6 +51,37 @@ public class IssuesScreen implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        double minLimit = 0.4;
+        double maxLimit = 0.7;
+        double snapThreshold = 0.05;
+
+        splitPane.setDividerPositions(0.5);
+
+        splitPane.getDividers().get(0).positionProperty().addListener(new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double position = newValue.doubleValue();
+
+                if (position < minLimit) {
+                    if (position < snapThreshold) {
+                        // Snap completo a sinistra
+                        splitPane.setDividerPositions(0.0);
+                    } else {
+                        // Blocca al limite minimo
+                        splitPane.setDividerPositions(minLimit);
+                    }
+                } else if (position > maxLimit) {
+                    if (position > 1.0 - snapThreshold) {
+                        // Snap completo a destra
+                        splitPane.setDividerPositions(1.0);
+                    } else {
+                        // Blocca al limite massimo
+                        splitPane.setDividerPositions(maxLimit);
+                    }
+                }
+            }
+        });
 
 
         ObservableList<IssueType> possibleIssueType = null;
