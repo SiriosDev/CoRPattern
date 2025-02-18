@@ -223,16 +223,9 @@ public class IssuesScreen implements Initializable {
                         }
 
 
-
-
-
-
-                        Stage currentStage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-                        FXMLLoader fxmlLoader2 = new FXMLLoader();
-                        fxmlLoader2.setLocation(MainApp.class.getResource("IssuesScreen.fxml"));
+                        Home home = MainApp.fxmlLoader.getController();
                         try {
-                            Scene scene2 = new Scene(fxmlLoader2.load());
-                            currentStage.setScene(scene2);
+                            home.loadContent("IssuesScreen.fxml");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
