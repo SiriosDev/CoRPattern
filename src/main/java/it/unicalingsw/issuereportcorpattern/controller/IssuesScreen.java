@@ -27,6 +27,7 @@ import javafx.util.StringConverter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class IssuesScreen implements Initializable {
@@ -186,6 +187,28 @@ public class IssuesScreen implements Initializable {
                     dialogStage.show();
 
                     dialogStage.setOnCloseRequest(ev -> {
+
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.initOwner(dialogStage);
+                        alert.setTitle("Attenzione");
+                        alert.setContentText("Sei sicuro di voler chiudere la schermata senza salvare?");
+                        alert.getButtonTypes().clear();
+                        ButtonType continua = new ButtonType("Continua");
+                        ButtonType annulla = new ButtonType("Annulla", ButtonBar.ButtonData.CANCEL_CLOSE);
+                        alert.getButtonTypes().addAll(continua, annulla);
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.isPresent() && result.get() == annulla) {
+                            ev.consume();
+                        } else {
+                            dialogStage.close();
+                        }
+
+
+
+
+
+
                         Stage currentStage = (Stage) ((Button)event.getSource()).getScene().getWindow();
                         FXMLLoader fxmlLoader2 = new FXMLLoader();
                         fxmlLoader2.setLocation(MainApp.class.getResource("IssuesScreen.fxml"));
