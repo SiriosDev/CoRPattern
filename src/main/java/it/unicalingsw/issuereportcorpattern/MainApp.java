@@ -8,11 +8,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainApp extends Application {
+
+    public static FXMLLoader fxmlLoader;
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        fxmlLoader = new FXMLLoader(MainApp.class.getResource("Home.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 950, 700);
+        stage.setTitle("CoR Pattern - IssueReportingSystem");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
