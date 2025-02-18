@@ -1,11 +1,8 @@
 package it.unicalingsw.issuereportcorpattern.controller;
 
+import it.unicalingsw.issuereportcorpattern.model.*;
 import it.unicalingsw.issuereportcorpattern.model.CoR.ChainBuilder;
 import it.unicalingsw.issuereportcorpattern.model.CoR.IssueHandler;
-import it.unicalingsw.issuereportcorpattern.model.Database;
-import it.unicalingsw.issuereportcorpattern.model.Issue;
-import it.unicalingsw.issuereportcorpattern.model.IssueType;
-import it.unicalingsw.issuereportcorpattern.model.MsgBox;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -55,13 +52,6 @@ public class ReportScreen  implements Initializable {
         issueComboBox.setValue(null);
     }
 
-    private Tooltip makeTooltip(String text) {
-        Tooltip tooltip = new Tooltip(text);
-        tooltip.setShowDelay(Duration.millis(5.0));
-        tooltip.setHideDelay(Duration.millis(5.0));
-        return tooltip;
-    }
-
     private void updateTooltip() {
         String tooltipText;
         Boolean disable=disableByType||disableByTitle||disableByDesc;
@@ -72,8 +62,8 @@ public class ReportScreen  implements Initializable {
             tooltipText += disableByTitle ? "- Titolo \n" : "";
             tooltipText += disableByDesc  ? "- Descrizione \n" : "";
 
-            wrapSend.setTooltip(makeTooltip(tooltipText));
-            wrapReset.setTooltip(makeTooltip(tooltipText));
+            wrapSend.setTooltip(TooltipMaker.makeTooltip(tooltipText));
+            wrapReset.setTooltip(TooltipMaker.makeTooltip(tooltipText));
         } else {
             wrapSend.setTooltip(null);
             wrapReset.setTooltip(null);

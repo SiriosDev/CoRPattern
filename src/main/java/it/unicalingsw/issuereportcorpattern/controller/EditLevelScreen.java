@@ -4,6 +4,7 @@ import it.unicalingsw.issuereportcorpattern.MainApp;
 import it.unicalingsw.issuereportcorpattern.model.Database;
 import it.unicalingsw.issuereportcorpattern.model.IssueType;
 import it.unicalingsw.issuereportcorpattern.model.MsgBox;
+import it.unicalingsw.issuereportcorpattern.model.TooltipMaker;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -33,14 +34,35 @@ public class EditLevelScreen implements Initializable {
     private Button addButton;
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private SplitPane wrapSave;
 
     public Boolean saved = true;
 
     private Boolean checkHelper(List<Integer> levels, List<String> names) {
         Set<Integer> setLevels = new HashSet<>(levels);
-        Boolean disableBySpinner = setLevels.size() < levels.size();
-        Boolean disableByNameTextField = names.contains("") || names.contains(null);
-        return disableBySpinner || disableByNameTextField;
+        Set<String> setNames = new HashSet<>(names);
+        Boolean disableBySameLevel = setLevels.size() < levels.size();
+        Boolean disableByEmptyName = names.contains("") || names.contains(null) ;
+        Boolean disableBySameName = setNames.size() < names.size();
+        Boolean disableByEmptyLevel = levels.contains(null);
+
+        Boolean disableByAny = disableBySameLevel || disableByEmptyName || disableBySameName || disableByEmptyLevel;
+
+
+        String tooltipText = "Una delle seguenti condizioni non è soddisfatta: \n";
+        tooltipText += disableBySameLevel ? "- Ci sono più livelli con lo stesso valore \n" : "";
+        tooltipText += disableBySameName  ? "- Ci sono più livelli con lo stesso nome \n" : "";
+        tooltipText += disableByEmptyLevel  ? "- Ci sono alcuni livelli senza valore \n" : "";
+        tooltipText += disableByEmptyName ? "- Ci sono alcuni livelli senza nome \n" : "";
+
+        if (disableByAny){
+            wrapSave.setTooltip(TooltipMaker.makeTooltip(tooltipText));
+        } else {
+            wrapSave.setTooltip(null);
+        }
+
+        return disableBySameLevel || disableByEmptyName || disableBySameName || disableByEmptyLevel;
 
     }
 
@@ -48,6 +70,8 @@ public class EditLevelScreen implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        wrapSave.setStyle("-fx-box-border: transparent;");
 
 
 
