@@ -155,7 +155,7 @@ public class EditLevelScreen implements Initializable {
                         issueType.setName(nameTextField.getText());
                         issueTypesToSave.add(issueType);
                     }else {
-                        issueTypesToSave.add(new IssueType(nameTextField.getText(), levelSpinner.getValue(), null, false));
+                        issueTypesToSave.add(new IssueType(null,nameTextField.getText(), levelSpinner.getValue(), null, false));
                     }
 
                 }
