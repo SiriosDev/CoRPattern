@@ -75,4 +75,14 @@ public class Database {
         }
         return issues;
     }
+
+    public static void addIssue(IssueType handlerIssueType, Issue issue) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Issue (Type, Title, Desc, Urgent) VALUES (?, ?, ?, ?)");
+        stmt.setInt(1, handlerIssueType.getID());
+        stmt.setString(2, issue.getTitle());
+        stmt.setString(3, issue.getDescription());
+        stmt.setBoolean(4, issue.getUrgent());
+        stmt.executeUpdate();
+        stmt.close();
+    }
 }
